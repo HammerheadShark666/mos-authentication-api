@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/.env
+/Microservice.Authentication.Api/appsettings.Development.json

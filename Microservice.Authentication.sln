@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice.Authentication.Api", "Microservice.Authentication.Api\Microservice.Authentication.Api.csproj", "{4DCA361B-7372-47EF-BE61-5A3964B1EAC2}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{FBBBCA4C-B18C-47B9-A646-F2E6E9880CBE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice.Authentication.Api.Test.Unit", "Microservice.Authentication.Api.Test.Unit\Microservice.Authentication.Api.Test.Unit.csproj", "{AE6E3373-1D56-4469-BB1E-CFD451A1BC61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B478B3AA-D7E5-44B2-8968-044E2AEBBA34}"
+	ProjectSection(SolutionItems) = preProject
+		.env = .env
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DCA361B-7372-47EF-BE61-5A3964B1EAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DCA361B-7372-47EF-BE61-5A3964B1EAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DCA361B-7372-47EF-BE61-5A3964B1EAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DCA361B-7372-47EF-BE61-5A3964B1EAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBBBCA4C-B18C-47B9-A646-F2E6E9880CBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBBBCA4C-B18C-47B9-A646-F2E6E9880CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBBBCA4C-B18C-47B9-A646-F2E6E9880CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBBBCA4C-B18C-47B9-A646-F2E6E9880CBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE6E3373-1D56-4469-BB1E-CFD451A1BC61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE6E3373-1D56-4469-BB1E-CFD451A1BC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE6E3373-1D56-4469-BB1E-CFD451A1BC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE6E3373-1D56-4469-BB1E-CFD451A1BC61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9E5EC013-D5CC-4BA1-BBE2-9E08774B67B0}
+	EndGlobalSection
+EndGlobal
