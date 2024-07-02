@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using MediatR;
 using Microservice.Authentication.Api.Extensions;
+using Microservice.Authentication.Api.Helpers.Exceptions;
 using Microservice.Authentication.Api.MediatR.AuthenticateUser;
 using Microsoft.OpenApi.Models;
 using System.Net;
@@ -27,5 +28,11 @@ public static class Endpoints
             Description = "Authenticates a user and returns a token if valid",
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Order System - Authenticate" } }
         });
+
+        app.MapGet("api/v{version:apiVersion}/test", () => {
+            return Results.Ok("Test Endpoint");
+        })
+        .WithApiVersionSet(app.GetApiVersionSet())
+        .MapToApiVersion(new ApiVersion(1, 0));
     }
 }
