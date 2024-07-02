@@ -48,4 +48,4 @@ jobs:
         app-name: 'prod-ap-ms-order-authentication'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_880bbbcdf9e148acb5022a2ceb127c00 }}
-        images: 'prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_a9c9dd14dc204e72be4646b672eb0c0f }}/microserviceauthentication:${{ github.sha }}'
+        images: 'prodcrmsordersystem.azurecr.io/prodcrmsordersystem/microserviceauthentication:${{ github.sha }}'
