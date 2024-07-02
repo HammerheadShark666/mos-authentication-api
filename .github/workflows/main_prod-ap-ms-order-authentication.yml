@@ -1,5 +1,5 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions/
+# More GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: Build and deploy container app to Azure Web App - prod-ap-ms-order-authentication
 
@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_7235e5c824e44370b046a422c9236850 }}/microserviceauthentication:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./Microservice.Authentication.Api/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
