@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_45da6327086d44448aeb59ba49902eb9 }}/prodCrMsOrderSystem/microserviceauthentication:${{ github.sha }}
+        tags: prodcrmsordersystem.azurecr.io/prodCrMsOrderSystem/microserviceauthentication:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'prod-ap-ms-order-authentication'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_f27ab332cbd8491ead97674d01f6d53b }}
-        images: 'prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_45da6327086d44448aeb59ba49902eb9 }}/prodCrMsOrderSystem/microserviceauthentication:${{ github.sha }}'
+        images: 'prodcrmsordersystem.azurecr.io/prodCrMsOrderSystem/microserviceauthentication:${{ github.sha }}'
