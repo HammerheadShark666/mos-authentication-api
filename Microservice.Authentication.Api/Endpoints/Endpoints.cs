@@ -28,11 +28,5 @@ public static class Endpoints
             Description = "Authenticates a user and returns a token if valid",
             Tags = new List<OpenApiTag> { new() { Name = "Microservice Order System - Authenticate" } }
         });
-
-        app.MapGet("api/v{version:apiVersion}/test", () => {
-            return Results.Ok("Test Endpoint");
-        })
-        .WithApiVersionSet(app.GetApiVersionSet())
-        .MapToApiVersion(new ApiVersion(1, 0));
     }
 }
