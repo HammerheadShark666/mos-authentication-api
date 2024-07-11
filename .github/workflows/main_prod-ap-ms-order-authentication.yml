@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_11e5e8c1243944a89aab714d787229f7 }}/prodcrmsordersystem/microserviceauthentication:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./Microservice.Authentication.Api/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
