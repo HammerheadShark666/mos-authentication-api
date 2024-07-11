@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://prodcrmsordersystem.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_985df7eb4ed943a287a936f5977ba31e }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_f3b2ca5208dd4aceae0ccf5f85f7b0da }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_11e5e8c1243944a89aab714d787229f7 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_b0269a8b978b48a9adaddcae52e38897 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_985df7eb4ed943a287a936f5977ba31e }}/microserviceauthentication:${{ github.sha }}
+        tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_11e5e8c1243944a89aab714d787229f7 }}/prodcrmsordersystem/microserviceauthentication:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'prod-ap-ms-order-authentication'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_383c7ead86954c5fbc6f4c8f0b6050f0 }}
-        images: 'prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_985df7eb4ed943a287a936f5977ba31e }}/microserviceauthentication:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_debb818037694fe2b074c7727f8a079e }}
+        images: 'prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_11e5e8c1243944a89aab714d787229f7 }}/prodcrmsordersystem/microserviceauthentication:${{ github.sha }}'
