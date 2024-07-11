@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_11e5e8c1243944a89aab714d787229f7 }}/prodcrmsordersystem/microserviceauthentication:${{ github.sha }}
+        tags: prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_11e5e8c1243944a89aab714d787229f7 }}/microserviceauthentication:${{ github.sha }}
         file: ./Microservice.Authentication.Api/Dockerfile
 
   deploy:
