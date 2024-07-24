@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 /.env
 /Microservice.Authentication.Api/appsettings.Development.json
+/PostmanCollections/MOS_Authentication_Api_V1_postman_collection.json

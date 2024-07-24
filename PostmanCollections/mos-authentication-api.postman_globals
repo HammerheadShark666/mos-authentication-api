@@ -1,0 +1,21 @@
+{
+	"id": "be776756-b713-4f6b-8b34-335ca60140f1",
+	"values": [
+		{
+			"key": "logged_in_schema",
+			"value": "{\"type\":\"object\",\"properties\":{\"jwtToken\":{\"type\":\"string\"}},\"required\":[\"jwtToken\"]}",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "logged_in_schema_fail",
+			"value": "{\"type\":\"object\",\"properties\":{\"status\":{\"type\":\"integer\"},\"detail\":{\"type\":\"string\"},\"errors\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"status\",\"detail\",\"errors\"]}",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2024-07-24T14:43:39.735Z",
+	"_postman_exported_using": "Postman/11.5.0"
+}
