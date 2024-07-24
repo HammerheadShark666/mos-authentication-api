@@ -82,7 +82,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"username\": \"2119-user@fail.com\",\r\n  \"password\": \"Password#1\"\r\n}",
+							"raw": "{\r\n  \"username\": \"{{invalid_username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
