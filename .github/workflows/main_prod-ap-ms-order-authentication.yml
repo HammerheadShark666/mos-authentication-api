@@ -62,4 +62,4 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "${{ github.workspace }}/PostmanCollections/MOS_Authentication_Api_V1_postman_collection.json" -g "${{ github.workspace }}/PostmanCollections/mos-authentication-api.postman_globals" -e "d3490942-e9d2-4fff-b7b4-b3194b085d51" --integration-id "165236-${{ github.run_id }}"
+          postman collection run "${{ github.workspace }}/PostmanCollections/MOS_Authentication_Api_V1_postman_collection.json" -g "${{ github.workspace }}/PostmanCollections/mos-authentication-api.postman_globals" -e "${{ secrets.POSTMAN_ENVIRONMENT_ID }}" --integration-id "165236-${{ github.run_id }}"
