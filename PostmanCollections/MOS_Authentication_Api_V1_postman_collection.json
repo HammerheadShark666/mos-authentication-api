@@ -6,10 +6,10 @@
 	},
 	"item": [
 		{
-			"name": "Authorization",
+			"name": "Authentication",
 			"item": [
 				{
-					"name": "{{authorization_url}}/api/{version}login",
+					"name": "{{authentication_url}}/api/{version}login",
 					"event": [
 						{
 							"listen": "test",
@@ -48,12 +48,12 @@
 								}
 							}
 						},
-						"url": "https://{{authorization_url}}/api/v1/login"
+						"url": "https://{{authentication_url}}/api/v1/login"
 					},
 					"response": []
 				},
 				{
-					"name": "{{authorization_url}}/api/{version}login (Fail)",
+					"name": "{{authentication_url}}/api/{version}login (Fail)",
 					"event": [
 						{
 							"listen": "test",
@@ -89,7 +89,7 @@
 								}
 							}
 						},
-						"url": "https://{{authorization_url}}/api/v1/login"
+						"url": "https://{{authentication_url}}/api/v1/login"
 					},
 					"response": []
 				}
