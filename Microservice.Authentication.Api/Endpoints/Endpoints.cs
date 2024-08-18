@@ -1,7 +1,6 @@
 ﻿using Asp.Versioning;
 using MediatR;
 using Microservice.Authentication.Api.Extensions;
-using Microservice.Authentication.Api.Helpers.Exceptions;
 using Microservice.Authentication.Api.MediatR.AuthenticateUser;
 using Microsoft.OpenApi.Models;
 using System.Net;
@@ -12,7 +11,7 @@ public static class Endpoints
 {
     public static void ConfigureRoutes(this WebApplication app)
     {
-        app.MapPost("api/v{version:apiVersion}/login", async (AuthenticateUserRequest authenticateUserRequest, IMediator mediator) => {
+        app.MapPost("v{version:apiVersion}/login", async (AuthenticateUserRequest authenticateUserRequest, IMediator mediator) => {
             var authenticateUserResponse = await mediator.Send(authenticateUserRequest);
             return Results.Ok(authenticateUserResponse);
         })
