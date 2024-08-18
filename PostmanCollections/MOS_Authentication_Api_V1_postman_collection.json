@@ -9,7 +9,7 @@
 			"name": "Authentication",
 			"item": [
 				{
-					"name": "{{authentication_url}}/api/{version}login",
+					"name": "{{authentication_url}}/{version}login",
 					"event": [
 						{
 							"listen": "test",
@@ -48,12 +48,12 @@
 								}
 							}
 						},
-						"url": "https://{{authentication_url}}/api/v1/login"
+						"url": "https://{{authentication_url}}/v1/login"
 					},
 					"response": []
 				},
 				{
-					"name": "{{authentication_url}}/api/{version}login (Fail)",
+					"name": "{{authentication_url}}/{version}login (Fail)",
 					"event": [
 						{
 							"listen": "test",
@@ -89,7 +89,7 @@
 								}
 							}
 						},
-						"url": "https://{{authentication_url}}/api/v1/login"
+						"url": "https://{{authentication_url}}/v1/login"
 					},
 					"response": []
 				}
