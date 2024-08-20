@@ -12,7 +12,8 @@ public class UserRepository(IDbContextFactory<UserDbContext> dbContextFactory) :
     public async Task<User> GetAsync(string email)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
-        return await db.Users.Where(a => a.Email.Equals(email))
+        return await db.Users.AsNoTracking()
+                             .Where(a => a.Email.Equals(email))
                              .FirstOrDefaultAsync();
     } 
 }

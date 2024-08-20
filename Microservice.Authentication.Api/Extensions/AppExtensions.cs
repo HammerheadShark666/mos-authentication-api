@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Asp.Versioning.Builder;
+using Microservice.Authentication.Api.Middleware;
 
 namespace Microservice.Authentication.Api.Extensions;
 
@@ -31,5 +32,13 @@ public static class AppExtensions
                   .HasApiVersion(new ApiVersion(1))
                   .ReportApiVersions()
                   .Build();
+    }
+
+    public static void ConfigureMiddleware(this WebApplication app)
+    {
+        //if (!app.Environment.IsDevelopment())
+       // {
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+       // }
     }
 }
