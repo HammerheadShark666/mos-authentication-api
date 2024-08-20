@@ -50,9 +50,27 @@ jobs:
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_debb818037694fe2b074c7727f8a079e }}
         images: 'prodcrmsordersystem.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_11e5e8c1243944a89aab714d787229f7 }}/microserviceauthentication:${{ github.sha }}'
 
-  automated-api-tests:
+  unit-tests:
     runs-on: ubuntu-latest
     needs: deploy
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
+
+      - name: Build with dotnet
+        run: dotnet build Microservice.Authentication.Api/Microservice.Authentication.Api.csproj --configuration Release
+
+      - name: Unit Tests
+        run: dotnet test Microservice.Authentication.Api.Test.Unit/Microservice.Authentication.Api.Test.Unit.csproj --logger "console;verbosity=detailed"
+
+  automated-api-tests:
+    runs-on: ubuntu-latest
+    needs: unit-tests
     steps:
       - uses: actions/checkout@v4
       - name: Install Postman CLI
@@ -62,4 +80,4 @@ jobs:
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
         run: |
-          postman collection run "${{ github.workspace }}/PostmanCollections/MOS_Authentication_Api_V1_postman_collection.json" -g "${{ github.workspace }}/PostmanCollections/mos-authentication-api.postman_globals" -e "${{ secrets.POSTMAN_ENVIRONMENT_ID }}" --integration-id "165236-${{ github.run_id }}"
+          postman collection run "${{ github.workspace }}/PostmanCollections/MOS_Authentication_Api_V1_postman_collection.json" -e "${{ secrets.POSTMAN_ENVIRONMENT_ID }}" --integration-id "165236-${{ github.run_id }}"
