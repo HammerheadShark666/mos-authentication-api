@@ -1,6 +1,5 @@
 using Microservice.Authentication.Api.Endpoints;
 using Microservice.Authentication.Api.Extensions;
-using Microservice.Authentication.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +18,8 @@ app.ConfigureSwagger();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
- 
+app.ConfigureMiddleware();
+
 Endpoints.ConfigureRoutes(app);
 
 app.Run();
