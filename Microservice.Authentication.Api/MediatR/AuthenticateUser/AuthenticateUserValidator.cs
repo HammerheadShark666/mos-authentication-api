@@ -9,13 +9,13 @@ namespace Microservice.Authentication.Api.MediatR.AuthenticateUser;
 public class AuthenticateUserValidator : AbstractValidator<AuthenticateUserRequest>
 {
     private readonly IUserRepository _userRepository;
-    private IWebHostEnvironment _env;
+    //private IWebHostEnvironment _env;
 
-    public AuthenticateUserValidator(IUserRepository userRepository, IWebHostEnvironment env)
+    public AuthenticateUserValidator(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _env = env;
-
+       // _env = env;
+        //, IWebHostEnvironment env
         RuleFor(authenticateUserRequest => authenticateUserRequest.Username)
                .NotEmpty().WithMessage("Email is required.")
                .Length(8, 150).WithMessage("Email length between 8 and 150.")
@@ -33,7 +33,7 @@ public class AuthenticateUserValidator : AbstractValidator<AuthenticateUserReque
 
     protected async Task<bool> ValidLoginDetails(AuthenticateUserRequest authenticateUserRequest)
     { 
-        User? user = user = await _userRepository.GetAsync(authenticateUserRequest.Username);
+        User? user = await _userRepository.GetAsync(authenticateUserRequest.Username);
 
         if (user == null || !user.IsAuthenticated || !BC.Verify(authenticateUserRequest.Password, user.PasswordHash))
             return false;

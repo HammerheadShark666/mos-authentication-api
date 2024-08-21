@@ -9,7 +9,7 @@ public class UserRepository(IDbContextFactory<UserDbContext> dbContextFactory) :
 {
     public IDbContextFactory<UserDbContext> _dbContextFactory { get; set; } = dbContextFactory;
           
-    public async Task<User> GetAsync(string email)
+    public async Task<User?> GetAsync(string email)
     {
         await using var db = await _dbContextFactory.CreateDbContextAsync();
         return await db.Users.AsNoTracking()
