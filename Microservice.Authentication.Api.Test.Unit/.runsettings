@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<RunConfiguration>
+		<EnvironmentVariables>
+			<JWT_ISSUER>TestIssuer</JWT_ISSUER>
+			<JWT_AUDIENCE>testsystem</JWT_AUDIENCE>
+			<JWT_SYMMETRIC_SECURITY_KEY>gdfxfghfhgfKndfghfghfghtzscvnujjhkhjkhjr54</JWT_SYMMETRIC_SECURITY_KEY>
+		</EnvironmentVariables>
+	</RunConfiguration>
+</RunSettings>
