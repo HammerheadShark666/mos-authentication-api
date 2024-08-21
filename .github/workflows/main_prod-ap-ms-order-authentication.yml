@@ -52,6 +52,10 @@ jobs:
 
   unit-tests:
     runs-on: ubuntu-latest
+    env: 
+      JWT_ISSUER: 'JohnMillerIssuer'
+      JWT_AUDIENCE: 'microserviceordersystem'
+      JWT_SYMMETRIC_SECURITY_KEY: 'ewsdfj200sdf##wkwoioJKe454Kndjpwe1rwer74ntr54'      
     needs: deploy
     steps:
       - uses: actions/checkout@v4
