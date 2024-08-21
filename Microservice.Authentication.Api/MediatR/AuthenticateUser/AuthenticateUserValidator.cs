@@ -1,7 +1,6 @@
 using FluentValidation;
 using Microservice.Authentication.Api.Data.Repository.Interfaces;
 using Microservice.Authentication.Api.Domain;
-using static Microservice.Authentication.Api.Helpers.Enums;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Microservice.Authentication.Api.MediatR.AuthenticateUser;
@@ -14,7 +13,7 @@ public class AuthenticateUserValidator : AbstractValidator<AuthenticateUserReque
     public AuthenticateUserValidator(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-       // _env = env;
+        // _env = env;
         //, IWebHostEnvironment env
         RuleFor(authenticateUserRequest => authenticateUserRequest.Username)
                .NotEmpty().WithMessage("Email is required.")
@@ -32,7 +31,7 @@ public class AuthenticateUserValidator : AbstractValidator<AuthenticateUserReque
     }
 
     protected async Task<bool> ValidLoginDetails(AuthenticateUserRequest authenticateUserRequest)
-    { 
+    {
         User? user = await _userRepository.GetAsync(authenticateUserRequest.Username);
 
         if (user == null || !user.IsAuthenticated || !BC.Verify(authenticateUserRequest.Password, user.PasswordHash))

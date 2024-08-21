@@ -17,28 +17,28 @@ public class JwtHelperTests
 
     [OneTimeSetUp]
     public void OneTimeSetup()
-    { 
-        IConfiguration configuration = new ConfigurationBuilder() 
-            .Build(); 
+    {
+        IConfiguration configuration = new ConfigurationBuilder()
+            .Build();
 
         _jwtHelper = new JwtHelper(configuration);
     }
-     
+
     [Test]
     public void Generate_jwt_token_successfully_return_jwt_token()
-    { 
-        User user = new User()
+    {
+        User user = new()
         {
             Id = new Guid("6c84d0a3-0c0c-435f-9ae0-4de09247ee15")
         };
-         
+
         var actualResult = _jwtHelper.generateJwtToken(user);
 
-        Assert.That(actualResult, Is.Not.Null); 
+        Assert.That(actualResult, Is.Not.Null);
 
         var userId = ValidateToken(actualResult);
 
-        Assert.That(userId, Is.EqualTo(user.Id)); 
+        Assert.That(userId, Is.EqualTo(user.Id));
     }
 
     public Guid? ValidateToken(string token)
