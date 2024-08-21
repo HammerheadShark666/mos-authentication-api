@@ -6,9 +6,9 @@ namespace Microservice.Authentication.Api.Domain;
 
 [Table("MSOS_User")]
 public class User
-{   
+{
     public User() { }
-  
+
     [Key]
     public Guid Id { get; set; }
 
@@ -20,11 +20,11 @@ public class User
     public string PasswordHash { get; set; }
 
     [Required]
-    public Role Role { get; set; } 
+    public Role Role { get; set; }
 
     public DateTime? Verified { get; set; }
 
-    public bool IsAuthenticated => Verified.HasValue; 
+    public bool IsAuthenticated => Verified.HasValue;
 
     [NotMapped]
     public string Password { get; set; }

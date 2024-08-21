@@ -6,14 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureExceptionHandling();
 builder.Services.AddControllers();
 builder.Services.ConfigureMediatr();
-builder.Services.AddEndpointsApiExplorer(); 
-builder.Services.ConfigureSwagger(); 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.ConfigureSwagger();
 builder.Services.ConfigureDI();
-builder.Services.ConfigureDatabaseContext(builder.Configuration);   
+builder.Services.ConfigureDatabaseContext(builder.Configuration);
 builder.Services.ConfigureApiVersioning();
 
-var app = builder.Build(); 
- 
+var app = builder.Build();
+
 app.ConfigureSwagger();
 app.UseHttpsRedirection();
 app.UseAuthorization();

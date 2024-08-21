@@ -18,7 +18,7 @@ using System.Reflection;
 namespace Microservice.Authentication.Api.Extensions;
 
 public static class IServiceCollectionExtensions
-{ 
+{
     public static void ConfigureExceptionHandling(this IServiceCollection services)
     {
         services.AddTransient<ExceptionHandlingMiddleware>();
@@ -32,25 +32,25 @@ public static class IServiceCollectionExtensions
     }
 
     public static void ConfigureDI(this IServiceCollection services)
-    { 
+    {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IJwtHelper, JwtHelper>();
-        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
+        services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddMemoryCache();
-    } 
+    }
 
     public static void ConfigureDatabaseContext(this IServiceCollection services, ConfigurationManager configuration)
     {
         services.AddDbContextFactory<UserDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString(Helpers.Constants.DatabaseConnectionString),
             options => options.EnableRetryOnFailure()));
-    } 
+    }
 
     public static void ConfigureApiVersioning(this IServiceCollection services)
     {
         services.AddApiVersioning(options =>
         {
-            options.DefaultApiVersion = new ApiVersion(1,0);
+            options.DefaultApiVersion = new ApiVersion(1, 0);
             options.ReportApiVersions = true;
             options.AssumeDefaultVersionWhenUnspecified = true;
             options.ApiVersionReader = ApiVersionReader.Combine(
@@ -59,7 +59,7 @@ public static class IServiceCollectionExtensions
         }).AddApiExplorer(options =>
         {
             options.GroupNameFormat = "'v'V";
-            options.SubstituteApiVersionInUrl = true; 
+            options.SubstituteApiVersionInUrl = true;
         });
     }
 
@@ -67,9 +67,9 @@ public static class IServiceCollectionExtensions
     {
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         services.AddSwaggerGen(options =>
-        { 
+        {
             options.OperationFilter<SwaggerDefaultValues>();
-            options.SupportNonNullableReferenceTypes(); 
+            options.SupportNonNullableReferenceTypes();
         });
     }
 }
