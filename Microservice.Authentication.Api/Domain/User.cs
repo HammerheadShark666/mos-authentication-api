@@ -14,10 +14,10 @@ public class User
 
     [Required]
     [MaxLength(150)]
-    public string Email { get; set; }
+    public string Email { get; set; } = string.Empty;
 
     [Required]
-    public string PasswordHash { get; set; }
+    public string PasswordHash { get; set; } = string.Empty;
 
     [Required]
     public Role Role { get; set; }
@@ -27,5 +27,5 @@ public class User
     public bool IsAuthenticated => Verified.HasValue;
 
     [NotMapped]
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 }
