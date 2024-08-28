@@ -9,16 +9,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework.Internal;
 
-namespace Microservice.AuthenticateUser.Api.Test.Unit;
+namespace Microservice.Authentication.Api.Test.Unit.MediatR;
 
 [TestFixture]
 public class AuthenticateUserMediatrTests
 {
-    private Mock<IUserRepository> userRepositoryMock = new();
-    private ServiceCollection services = new();
+    private readonly Mock<IUserRepository> userRepositoryMock = new();
+    private readonly ServiceCollection services = new();
     private ServiceProvider serviceProvider;
     private IMediator mediator;
-    private Mock<IJwtHelper> jwtHelperMock = new();
+    private readonly Mock<IJwtHelper> jwtHelperMock = new();
 
 
     [OneTimeSetUp]
@@ -27,8 +27,8 @@ public class AuthenticateUserMediatrTests
         services.AddValidatorsFromAssemblyContaining<AuthenticateUserValidator>();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(AuthenticateUserQueryHandler).Assembly));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
-        services.AddScoped<IUserRepository>(sp => userRepositoryMock.Object);
-        services.AddScoped<IJwtHelper>(sp => jwtHelperMock.Object);
+        services.AddScoped(sp => userRepositoryMock.Object);
+        services.AddScoped(sp => jwtHelperMock.Object);
         serviceProvider = services.BuildServiceProvider();
         mediator = serviceProvider.GetRequiredService<IMediator>();
     }
@@ -77,7 +77,8 @@ public class AuthenticateUserMediatrTests
         string username = "intergration-test-user@example.com";
         string password = "Password#1";
 
-        userRepositoryMock.Setup(m => m.GetAsync(username)).ReturnsAsync((User)null);
+        userRepositoryMock
+            .Setup(m => m.GetAsync(username));
 
         var authenticateUserRequest = new AuthenticateUserRequest(username, password);
 
