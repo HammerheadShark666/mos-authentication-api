@@ -1,111 +1,141 @@
 {
-  "info": {
-    "_postman_id": "ea770c6c-3a71-4ab5-a04e-cbe19a645e1d",
-    "name": "Api",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "4654363",
-    "_collection_link": "https://jwm-demo-team.postman.co/workspace/MOS-Authentication-Api~29fcd672-a6bc-4895-8dbd-dc4829e1f982/collection/4654363-ea770c6c-3a71-4ab5-a04e-cbe19a645e1d?action=share&source=collection_link&creator=4654363"
-  },
-  "item": [
-    {
-      "name": "Authentication",
-      "item": [
-        {
-          "name": "{{authentication_url}}/{version}login",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 200\", function () {\r",
-                  "    pm.response.to.have.status(200);\r",
-                  "});  \r",
-                  "\r",
-                  "pm.test('Schema validation', () => {\r",
-                  "    pm.response.to.have.jsonSchema(JSON.parse(pm.environment.get(\"logged_in_schema\")));\r",
-                  "});\r",
-                  " \r",
-                  "var jsonData = JSON.parse(pm.response.text()); \r",
-                  "pm.environment.set(\"token\", jsonData.jwtToken);"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://{{authentication_url}}/v1/login",
-              "protocol": "https",
-              "host": [
-                "{{authentication_url}}"
-              ],
-              "path": [
-                "v1",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "{{authentication_url}}/{version}login (Fail)",
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "exec": [
-                  "pm.test(\"Status code is 400\", function () {\r",
-                  "    pm.response.to.have.status(400);\r",
-                  "});  \r",
-                  "\r",
-                  "pm.test('Schema validation', () => {\r",
-                  "    pm.response.to.have.jsonSchema (JSON.parse(pm.environment.get(\"logged_in_schema_fail\")));\r",
-                  "});"
-                ],
-                "type": "text/javascript",
-                "packages": {}
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"username\": \"{{invalid_username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "https://{{authentication_url}}/v1/login",
-              "protocol": "https",
-              "host": [
-                "{{authentication_url}}"
-              ],
-              "path": [
-                "v1",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ]
+	"info": {
+		"_postman_id": "ea770c6c-3a71-4ab5-a04e-cbe19a645e1d",
+		"name": "Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "{{authentication_url}}/{version}login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0dc42615-78d0-4ede-bb9c-440612134b92",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});  \r",
+									"\r",
+									"pm.test('Schema validation', () => {\r",
+									"    pm.response.to.have.jsonSchema(JSON.parse(pm.environment.get(\"logged_in_schema\")));\r",
+									"});\r",
+									" \r",
+									"var jsonData = JSON.parse(pm.response.text()); \r",
+									"pm.environment.set(\"token\", jsonData.jwtToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "9edb760c-d117-47a4-a3a7-36d50803ad38",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://{{authentication_url}}/v1/login"
+					},
+					"response": []
+				},
+				{
+					"name": "{{authentication_url}}/{version}login (Fail)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0dc42615-78d0-4ede-bb9c-440612134b92",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});  \r",
+									"\r",
+									"pm.test('Schema validation', () => {\r",
+									"    pm.response.to.have.jsonSchema (JSON.parse(pm.environment.get(\"logged_in_schema_fail\")));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "1f69d2a3-5daf-490e-be73-ffc899b17f02",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{invalid_username}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://{{authentication_url}}/v1/login"
+					},
+					"response": []
+				},
+				{
+					"name": "{{authentication_url}}/{version}login (Fail) Invalid Username",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0dc42615-78d0-4ede-bb9c-440612134b92",
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});  \r",
+									"\r",
+									"pm.test('Schema validation', () => {\r",
+									"    pm.response.to.have.jsonSchema (JSON.parse(pm.environment.get(\"logged_in_schema_fail_invalid_username\")));\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "2f24e619-1ea5-4da8-aa84-391b50c8a98f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"gfgfg\",\r\n  \"password\": \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://{{authentication_url}}/v1/login"
+					},
+					"response": []
+				}
+			],
+			"id": "fe11d357-f386-4cc6-afec-13183bff1c7c"
+		}
+	]
 }
