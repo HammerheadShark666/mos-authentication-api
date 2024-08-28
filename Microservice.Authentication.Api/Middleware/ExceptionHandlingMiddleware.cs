@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using FluentValidation.Results;
+﻿using FluentValidation.Results;
+using Microservice.Authentication.Api.Helpers;
 using Microservice.Authentication.Api.Helpers.Exceptions;
 using System.Net;
 using System.Text.Json;
@@ -7,11 +7,9 @@ using static Microservice.Authentication.Api.Helpers.Enums;
 
 namespace Microservice.Authentication.Api.Middleware;
 
-internal sealed class ExceptionHandlingMiddleware : IMiddleware
+internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) : IMiddleware
 {
-    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
-
-    public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) => _logger = logger;
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger = logger;
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
@@ -26,51 +24,60 @@ internal sealed class ExceptionHandlingMiddleware : IMiddleware
         }
     }
 
-    private Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        var httpStatusCode = HttpStatusCode.InternalServerError;
+        var exceptionResults = GetExceptionResults(exception);
 
         context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)exceptionResults.Item1;
 
-        var result = string.Empty;
-
-        switch (exception)
-        {
-            case ValidationException validationException:
-                httpStatusCode = HttpStatusCode.BadRequest;
-                result = JsonSerializer.Serialize(GetValidationErrors(validationException.Errors));
-                break;
-            case ArgumentException argumentException:
-                httpStatusCode = HttpStatusCode.BadRequest;
-                result = JsonSerializer.Serialize(argumentException.Message);
-                break;
-            case BadRequestException badRequestException:
-                httpStatusCode = HttpStatusCode.BadRequest;
-                result = badRequestException.Message;
-                break;
-            case NotFoundException:
-                httpStatusCode = HttpStatusCode.NotFound;
-                break;
-            case not null:
-                httpStatusCode = HttpStatusCode.BadRequest;
-                break;
-        }
-
-        context.Response.StatusCode = (int)httpStatusCode;
-
-        if (result == string.Empty) result = JsonSerializer.Serialize(new { error = exception?.Message });
-
-        return context.Response.WriteAsync(result);
+        return context.Response.WriteAsync(exceptionResults.Item2);
     }
 
-    private static IEnumerable<Helpers.ValidationError> GetValidationErrors(IEnumerable<ValidationFailure> validationErrors)
+    private static IEnumerable<ValidationError> GetValidationErrors(IEnumerable<ValidationFailure> validationErrors)
     {
         if (validationErrors != null)
         {
             foreach (var error in validationErrors)
             {
-                yield return new Helpers.ValidationError(ErrorType.Error.ToString(), error.ErrorMessage);
+                yield return new ValidationError(ErrorType.Error.ToString(), error.ErrorMessage);
             }
         }
+    }
+
+    private static ValidationError CreateValidationError(string type, string message)
+    {
+        return new ValidationError(type, message);
+    }
+
+    private static Tuple<HttpStatusCode, string> GetExceptionResults(Exception exception)
+    {
+        var httpStatusCode = HttpStatusCode.BadRequest;
+        var errorMessages = JsonSerializer.Serialize(CreateValidationError(Enums.ErrorType.Error.ToString(), exception.Message));
+
+        if (exception.InnerException != null)
+        {
+            exception = exception.InnerException;
+            errorMessages = JsonSerializer.Serialize(CreateValidationError(Enums.ErrorType.Error.ToString(), exception.Message));
+        }
+
+        switch (exception)
+        {
+            case BadRequestException:
+            case ArgumentException:
+            case EnvironmentVariableNotFoundException:
+                break;
+            case FluentValidation.ValidationException validationException:
+                errorMessages = JsonSerializer.Serialize(GetValidationErrors(validationException.Errors));
+                break;
+            case NotFoundException:
+                httpStatusCode = HttpStatusCode.NotFound;
+                break;
+            case not null:
+                httpStatusCode = HttpStatusCode.InternalServerError;
+                break;
+        }
+
+        return new Tuple<HttpStatusCode, string>(httpStatusCode, errorMessages);
     }
 }

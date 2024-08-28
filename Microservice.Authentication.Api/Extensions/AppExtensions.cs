@@ -36,9 +36,9 @@ public static class AppExtensions
 
     public static void ConfigureMiddleware(this WebApplication app)
     {
-        if (!app.Environment.IsDevelopment())
-        {
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
-        }
+        //if (!app.Environment.IsDevelopment())
+        // {
+        app.UseMiddleware<ExceptionHandlingMiddleware>();
+        // }
     }
 }

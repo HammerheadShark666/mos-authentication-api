@@ -8,13 +8,10 @@ namespace Microservice.Authentication.Api.MediatR.AuthenticateUser;
 public class AuthenticateUserValidator : AbstractValidator<AuthenticateUserRequest>
 {
     private readonly IUserRepository _userRepository;
-    //private IWebHostEnvironment _env;
 
     public AuthenticateUserValidator(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        // _env = env;
-        //, IWebHostEnvironment env
         RuleFor(authenticateUserRequest => authenticateUserRequest.Username)
                .NotEmpty().WithMessage("Email is required.")
                .Length(8, 150).WithMessage("Email length between 8 and 150.")

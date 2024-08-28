@@ -1,6 +1,7 @@
 using MediatR;
 using Microservice.Authentication.Api.Data.Repository.Interfaces;
 using Microservice.Authentication.Api.Domain;
+using Microservice.Authentication.Api.Helpers.Exceptions;
 using Microservice.Authentication.Api.Helpers.Interfaces;
 
 namespace Microservice.Authentication.Api.MediatR.AuthenticateUser;
@@ -14,7 +15,7 @@ public class AuthenticateUserQueryHandler(IUserRepository userRepository,
 
     public async Task<AuthenticateUserResponse> Handle(AuthenticateUserRequest request, CancellationToken cancellationToken)
     {
-        User? user = await _userRepository.GetAsync(request.Username);
+        User? user = await _userRepository.GetAsync(request.Username) ?? throw new NotFoundException("User not found.");
         return new AuthenticateUserResponse(_jwtHelper.generateJwtToken(user));
     }
 }
