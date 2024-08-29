@@ -72,7 +72,7 @@ public class AuthenticateUserMediatrTests
     }
 
     [Test]
-    public void Login_fail_return_400_exception()
+    public void Login_fail_user_name_not_found_return_400_exception()
     {
         string username = "intergration-test-user@example.com";
         string password = "Password#1";
@@ -87,7 +87,55 @@ public class AuthenticateUserMediatrTests
             await mediator.Send(authenticateUserRequest);
         });
 
-        Assert.That(validationException.Errors.Count, Is.EqualTo(1));
-        Assert.That(validationException.Errors.ElementAt(0).ErrorMessage, Is.EqualTo("Invalid login"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(validationException.Errors.Count, Is.EqualTo(1));
+            Assert.That(validationException.Errors.ElementAt(0).ErrorMessage, Is.EqualTo("Invalid login"));
+        });
+    }
+
+    public void Login_fail_incorrect_password_return_400_exception()
+    {
+        string username = "intergration-test-user@example.com";
+        string password = "FailPassword#1";
+
+        userRepositoryMock
+            .Setup(m => m.GetAsync(username));
+
+        var authenticateUserRequest = new AuthenticateUserRequest(username, password);
+
+        var validationException = Assert.ThrowsAsync<ValidationException>(async () =>
+        {
+            await mediator.Send(authenticateUserRequest);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(validationException.Errors.Count, Is.EqualTo(1));
+            Assert.That(validationException.Errors.ElementAt(0).ErrorMessage, Is.EqualTo("Invalid login"));
+        });
+    }
+
+    [Test]
+    public void Login_fail_incorrect_user_name_password_return_400_exception()
+    {
+        string username = "example.com";
+        string password = "";
+
+        var authenticateUserRequest = new AuthenticateUserRequest(username, password);
+
+        var validationException = Assert.ThrowsAsync<ValidationException>(async () =>
+        {
+            await mediator.Send(authenticateUserRequest);
+        });
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(validationException.Errors.Count, Is.EqualTo(4));
+            Assert.That(validationException.Errors.ElementAt(0).ErrorMessage, Is.EqualTo("Invalid Email."));
+            Assert.That(validationException.Errors.ElementAt(1).ErrorMessage, Is.EqualTo("Password is required."));
+            Assert.That(validationException.Errors.ElementAt(2).ErrorMessage, Is.EqualTo("Password length between 8 and 50."));
+            Assert.That(validationException.Errors.ElementAt(3).ErrorMessage, Is.EqualTo("Invalid login"));
+        });
     }
 }
