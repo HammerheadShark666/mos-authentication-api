@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using Microservice.Authentication.Api.Helpers;
+using Microservice.Authentication.Api.Helpers.Dto;
 using Microservice.Authentication.Api.Helpers.Exceptions;
 using System.Net;
 using System.Text.Json;
@@ -34,20 +35,20 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         return context.Response.WriteAsync(exceptionResults.Item2);
     }
 
-    private static IEnumerable<ValidationError> GetValidationErrors(IEnumerable<ValidationFailure> validationErrors)
+    private static IEnumerable<ResponseMessage> GetValidationErrors(IEnumerable<ValidationFailure> validationErrors)
     {
         if (validationErrors != null)
         {
             foreach (var error in validationErrors)
             {
-                yield return new ValidationError(ErrorType.Error.ToString(), error.ErrorMessage);
+                yield return new ResponseMessage(ErrorType.Error.ToString(), error.ErrorMessage);
             }
         }
     }
 
-    private static ValidationError CreateValidationError(string type, string message)
+    private static ResponseMessage CreateValidationError(string type, string message)
     {
-        return new ValidationError(type, message);
+        return new ResponseMessage(type, message);
     }
 
     private static Tuple<HttpStatusCode, string> GetExceptionResults(Exception exception)
