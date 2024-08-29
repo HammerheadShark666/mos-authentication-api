@@ -4,5 +4,5 @@ namespace Microservice.Authentication.Api.Helpers.Interfaces;
 
 public interface IJwtHelper
 {
-    string generateJwtToken(User user);
+    string GenerateJwtToken(User user);
 }

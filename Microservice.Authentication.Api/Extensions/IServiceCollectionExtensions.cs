@@ -1,7 +1,7 @@
 ﻿using Asp.Versioning;
 using FluentValidation;
 using MediatR;
-using Microservice.Authentication.Api.Data.Contexts;
+using Microservice.Authentication.Api.Data.Context;
 using Microservice.Authentication.Api.Data.Repository;
 using Microservice.Authentication.Api.Data.Repository.Interfaces;
 using Microservice.Authentication.Api.Helpers;

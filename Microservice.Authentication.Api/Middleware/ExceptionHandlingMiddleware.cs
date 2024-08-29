@@ -20,7 +20,7 @@ internal sealed class ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddl
         }
         catch (Exception e)
         {
-            _logger.LogError(e, e.Message);
+            _logger.LogError(e, "{message}", e.Message);
             await HandleExceptionAsync(context, e);
         }
     }

@@ -1,19 +1,19 @@
-﻿using Microservice.Authentication.Api.Data.Contexts;
+﻿using Microservice.Authentication.Api.Data.Context;
 using Microservice.Authentication.Api.Data.Repository.Interfaces;
 using Microservice.Authentication.Api.Domain;
+using Microservice.Authentication.Api.Helpers.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microservice.Authentication.Api.Data.Repository;
 
 public class UserRepository(IDbContextFactory<UserDbContext> dbContextFactory) : IUserRepository
 {
-    public IDbContextFactory<UserDbContext> _dbContextFactory { get; set; } = dbContextFactory;
-
-    public async Task<User?> GetAsync(string email)
+    public async Task<User> GetAsync(string email)
     {
-        await using var db = await _dbContextFactory.CreateDbContextAsync();
-        return await db.Users.AsNoTracking()
+        await using var db = await dbContextFactory.CreateDbContextAsync();
+        var user = await db.Users.AsNoTracking()
                              .Where(a => a.Email.Equals(email))
-                             .FirstOrDefaultAsync();
+                             .FirstOrDefaultAsync() ?? throw new NotFoundException("User not found.");
+        return user;
     }
 }

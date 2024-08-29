@@ -9,9 +9,11 @@ namespace Microservice.Authentication.Api.Endpoints;
 
 public static class Endpoints
 {
-    public static void ConfigureRoutes(this WebApplication app)
+    public static void ConfigureRoutes(this WebApplication webApplication)
     {
-        app.MapPost("v{version:apiVersion}/login", async (AuthenticateUserRequest authenticateUserRequest, IMediator mediator) =>
+        var authenticateGroup = webApplication.MapGroup("v{version:apiVersion}").WithTags("authenticate");
+
+        authenticateGroup.MapPost("/login", async (AuthenticateUserRequest authenticateUserRequest, IMediator mediator) =>
         {
             var authenticateUserResponse = await mediator.Send(authenticateUserRequest);
             return Results.Ok(authenticateUserResponse);
@@ -20,13 +22,13 @@ public static class Endpoints
         .Produces<AuthenticateUserResponse>((int)HttpStatusCode.OK)
         .Produces<AuthenticateUserErrorResponse>((int)HttpStatusCode.BadRequest)
         .WithName("AuthenticateUser")
-        .WithApiVersionSet(app.GetApiVersionSet())
+        .WithApiVersionSet(webApplication.GetApiVersionSet())
         .MapToApiVersion(new ApiVersion(1, 0))
         .WithOpenApi(x => new OpenApiOperation(x)
         {
             Summary = "Authenticate a user",
             Description = "Authenticates a user and returns a token if valid",
-            Tags = new List<OpenApiTag> { new() { Name = "Microservice Order System - Authenticate" } }
+            Tags = [new() { Name = "Microservice Order System - Authenticate" }]
         });
     }
 }

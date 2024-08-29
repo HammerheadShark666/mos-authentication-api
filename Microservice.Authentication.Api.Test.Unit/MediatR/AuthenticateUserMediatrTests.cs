@@ -3,6 +3,7 @@ using MediatR;
 using Microservice.Authentication.Api.Data.Repository.Interfaces;
 using Microservice.Authentication.Api.Domain;
 using Microservice.Authentication.Api.Helpers;
+using Microservice.Authentication.Api.Helpers.Exceptions;
 using Microservice.Authentication.Api.Helpers.Interfaces;
 using Microservice.Authentication.Api.MediatR.AuthenticateUser;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,7 +63,7 @@ public class AuthenticateUserMediatrTests
                 .Returns(Task.FromResult(user));
 
         jwtHelperMock
-                .Setup(x => x.generateJwtToken(user))
+                .Setup(x => x.GenerateJwtToken(user))
                 .Returns(jwtToken);
 
         var authenticateUserRequest = new AuthenticateUserRequest(username, password);
@@ -78,7 +79,7 @@ public class AuthenticateUserMediatrTests
         string password = "Password#1";
 
         userRepositoryMock
-            .Setup(m => m.GetAsync(username));
+            .Setup(m => m.GetAsync(username)).ThrowsAsync(new NotFoundException("User not found."));
 
         var authenticateUserRequest = new AuthenticateUserRequest(username, password);
 
@@ -94,13 +95,14 @@ public class AuthenticateUserMediatrTests
         });
     }
 
+    [Test]
     public void Login_fail_incorrect_password_return_400_exception()
     {
         string username = "intergration-test-user@example.com";
         string password = "FailPassword#1";
 
         userRepositoryMock
-            .Setup(m => m.GetAsync(username));
+            .Setup(m => m.GetAsync(username)).ThrowsAsync(new NotFoundException("User not found."));
 
         var authenticateUserRequest = new AuthenticateUserRequest(username, password);
 
@@ -123,6 +125,9 @@ public class AuthenticateUserMediatrTests
         string password = "";
 
         var authenticateUserRequest = new AuthenticateUserRequest(username, password);
+
+        userRepositoryMock
+            .Setup(m => m.GetAsync(username)).ThrowsAsync(new NotFoundException("User not found."));
 
         var validationException = Assert.ThrowsAsync<ValidationException>(async () =>
         {
