@@ -43,3 +43,4 @@ public class AuthenticateUserValidator : AbstractValidator<AuthenticateUserReque
 
         return false;
     }
+}
