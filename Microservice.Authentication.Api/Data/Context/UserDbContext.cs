@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Microservice.Authentication.Api.Data.Contexts;
+namespace Microservice.Authentication.Api.Data.Context;
 
-public class UserDbContext : DbContext
+public class UserDbContext(DbContextOptions<UserDbContext> options) : DbContext(options)
 {
-    public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
-    { }
-
     public DbSet<Domain.User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

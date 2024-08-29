@@ -32,7 +32,7 @@ public class JwtHelperTests
             Id = new Guid("6c84d0a3-0c0c-435f-9ae0-4de09247ee15")
         };
 
-        var actualResult = _jwtHelper.generateJwtToken(user);
+        var actualResult = _jwtHelper.GenerateJwtToken(user);
 
         Assert.That(actualResult, Is.Not.Null);
 
@@ -47,7 +47,7 @@ public class JwtHelperTests
             return null;
 
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SYMMETRIC_SECURITY_KEY"));
+        var key = Encoding.ASCII.GetBytes(EnvironmentVariables.JwtSymmetricSecurityKey);
         try
         {
             tokenHandler.ValidateToken(token, new TokenValidationParameters

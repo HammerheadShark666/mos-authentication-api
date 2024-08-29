@@ -9,13 +9,9 @@ namespace Microservice.Authentication.Api.MediatR.AuthenticateUser;
 public class AuthenticateUserQueryHandler(IUserRepository userRepository,
                                           IJwtHelper jwtHelper) : IRequestHandler<AuthenticateUserRequest, AuthenticateUserResponse>
 {
-    private const int ExpirationMinutes = 60;
-    private IUserRepository _userRepository { get; set; } = userRepository;
-    private IJwtHelper _jwtHelper { get; set; } = jwtHelper;
-
     public async Task<AuthenticateUserResponse> Handle(AuthenticateUserRequest request, CancellationToken cancellationToken)
     {
-        User? user = await _userRepository.GetAsync(request.Username) ?? throw new NotFoundException("User not found.");
-        return new AuthenticateUserResponse(_jwtHelper.generateJwtToken(user));
+        User? user = await userRepository.GetAsync(request.Username) ?? throw new NotFoundException("User not found.");
+        return new AuthenticateUserResponse(jwtHelper.GenerateJwtToken(user));
     }
 }

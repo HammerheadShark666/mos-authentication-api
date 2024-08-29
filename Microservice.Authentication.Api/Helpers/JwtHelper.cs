@@ -8,11 +8,9 @@ using System.Text;
 namespace Microservice.Authentication.Api.Helpers;
 public class JwtHelper(IConfiguration configuration) : IJwtHelper
 {
-    private IConfiguration _configuration { get; set; } = configuration;
-
     private const int ExpirationMinutes = 60;
 
-    public string generateJwtToken(User user)
+    public string GenerateJwtToken(User user)
     {
         var nowUtc = DateTime.UtcNow;
         var expirationTimeUtc = GetExpirationTimeUtc(nowUtc);
@@ -38,7 +36,7 @@ public class JwtHelper(IConfiguration configuration) : IJwtHelper
 
     private int GetExpirationMinutes()
     {
-        var expirationMinutes = _configuration["JwtToken:ExpirationMinutes"];
+        var expirationMinutes = configuration["JwtToken:ExpirationMinutes"];
 
         if (expirationMinutes is null)
         {
@@ -50,23 +48,22 @@ public class JwtHelper(IConfiguration configuration) : IJwtHelper
         }
     }
 
-    private SigningCredentials GetSigningCredentials()
+    private static SigningCredentials GetSigningCredentials()
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(EnvironmentVariables.JwtSymmetricSecurityKey));
         return new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
     }
 
-    private List<Claim> GetClaims(User user, DateTime nowUtc, DateTime expirationUtc)
+    private static List<Claim> GetClaims(User user, DateTime nowUtc, DateTime expirationUtc)
     {
-        return new List<Claim>
-                    {
-                        new(JwtRegisteredClaimNames.Sub, "Authentication"),
-                        new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(nowUtc).ToString(), ClaimValueTypes.Integer64),
-                        new(JwtRegisteredClaimNames.Exp, EpochTime.GetIntDate(expirationUtc).ToString(), ClaimValueTypes.Integer64),
-                        new(JwtRegisteredClaimNames.Iss, EnvironmentVariables.JwtIssuer),
-                        new(JwtRegisteredClaimNames.Aud, EnvironmentVariables.JwtAudience),
-                        new(ClaimTypes.NameIdentifier, user.Id.ToString())
-                    };
+        return [
+                    new(JwtRegisteredClaimNames.Sub, "Authentication"),
+                    new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new(JwtRegisteredClaimNames.Iat, EpochTime.GetIntDate(nowUtc).ToString(), ClaimValueTypes.Integer64),
+                    new(JwtRegisteredClaimNames.Exp, EpochTime.GetIntDate(expirationUtc).ToString(), ClaimValueTypes.Integer64),
+                    new(JwtRegisteredClaimNames.Iss, EnvironmentVariables.JwtIssuer),
+                    new(JwtRegisteredClaimNames.Aud, EnvironmentVariables.JwtAudience),
+                    new(ClaimTypes.NameIdentifier, user.Id.ToString())
+               ];
     }
 }

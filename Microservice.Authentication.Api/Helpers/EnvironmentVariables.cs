@@ -4,9 +4,9 @@ namespace Microservice.Authentication.Api.Helpers;
 
 public class EnvironmentVariables
 {
-    public static string JwtIssuer = GetEnvironmentVariable(Constants.JwtIssuer);
-    public static string JwtAudience = GetEnvironmentVariable(Constants.JwtAudience);
-    public static string JwtSymmetricSecurityKey = GetEnvironmentVariable(Constants.JwtSymmetricSecurityKey);
+    public static string JwtIssuer => GetEnvironmentVariable(Constants.JwtIssuer);
+    public static string JwtAudience => GetEnvironmentVariable(Constants.JwtAudience);
+    public static string JwtSymmetricSecurityKey => GetEnvironmentVariable(Constants.JwtSymmetricSecurityKey);
 
     public static string GetEnvironmentVariable(string name)
     {

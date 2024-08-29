@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microservice.Authentication.Api.Data.Repository.Interfaces;
 using Microservice.Authentication.Api.Domain;
+using Microservice.Authentication.Api.Helpers.Exceptions;
 using BC = BCrypt.Net.BCrypt;
 
 namespace Microservice.Authentication.Api.MediatR.AuthenticateUser;
@@ -29,11 +30,16 @@ public class AuthenticateUserValidator : AbstractValidator<AuthenticateUserReque
 
     protected async Task<bool> ValidLoginDetails(AuthenticateUserRequest authenticateUserRequest)
     {
-        User? user = await _userRepository.GetAsync(authenticateUserRequest.Username);
-
-        if (user == null || !user.IsAuthenticated || !BC.Verify(authenticateUserRequest.Password, user.PasswordHash))
+        try
+        {
+            User user = await _userRepository.GetAsync(authenticateUserRequest.Username);
+            if (user.IsAuthenticated && BC.Verify(authenticateUserRequest.Password, user.PasswordHash))
+                return true;
+        }
+        catch (NotFoundException)
+        {
             return false;
+        }
 
-        return true;
+        return false;
     }
-}
