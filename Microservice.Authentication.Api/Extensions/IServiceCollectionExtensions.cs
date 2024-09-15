@@ -67,7 +67,6 @@ public static class IServiceCollectionExtensions
             SqlAuthenticationProvider.SetProvider(
                     sqlAuthenticationMethod,
                     sqlAuthenticationProvider);
-            // new DevelopmentAzureSQLProvider());
             var sqlConnection = new SqlConnection(connectionString);
             options.UseSqlServer(sqlConnection);
         });
