@@ -49,24 +49,25 @@ public static class IServiceCollectionExtensions
             var connectionString = configuration.GetConnectionString(Constants.AzureDatabaseConnectionString)
                     ?? throw new DatabaseConnectionStringNotFound("Production database connection string not found.");
 
-            AddDbContextFactory(services, SqlAuthenticationMethod.ActiveDirectoryManagedIdentity, connectionString);
+            AddDbContextFactory(services, SqlAuthenticationMethod.ActiveDirectoryManagedIdentity, new ProductionAzureSQLProvider(), connectionString);
         }
         else if (environment.IsDevelopment())
         {
             var connectionString = configuration.GetConnectionString(Constants.LocalDatabaseConnectionString)
                     ?? throw new DatabaseConnectionStringNotFound("Development database connection string not found.");
 
-            AddDbContextFactory(services, SqlAuthenticationMethod.ActiveDirectoryServicePrincipal, connectionString);
+            AddDbContextFactory(services, SqlAuthenticationMethod.ActiveDirectoryServicePrincipal, new DevelopmentAzureSQLProvider(), connectionString);
         }
     }
 
-    private static void AddDbContextFactory(IServiceCollection services, SqlAuthenticationMethod sqlAuthenticationMethod, string connectionString)
+    private static void AddDbContextFactory(IServiceCollection services, SqlAuthenticationMethod sqlAuthenticationMethod, SqlAuthenticationProvider sqlAuthenticationProvider, string connectionString)
     {
         services.AddDbContextFactory<UserDbContext>(options =>
         {
             SqlAuthenticationProvider.SetProvider(
                     sqlAuthenticationMethod,
-                    new DevelopmentAzureSQLProvider());
+                    sqlAuthenticationProvider);
+            // new DevelopmentAzureSQLProvider());
             var sqlConnection = new SqlConnection(connectionString);
             options.UseSqlServer(sqlConnection);
         });
