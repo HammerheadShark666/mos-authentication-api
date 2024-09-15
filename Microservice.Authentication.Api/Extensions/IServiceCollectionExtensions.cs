@@ -60,18 +60,6 @@ public static class IServiceCollectionExtensions
         }
     }
 
-    private static void AddDbContextFactory(IServiceCollection services, SqlAuthenticationMethod sqlAuthenticationMethod, SqlAuthenticationProvider sqlAuthenticationProvider, string connectionString)
-    {
-        services.AddDbContextFactory<UserDbContext>(options =>
-        {
-            SqlAuthenticationProvider.SetProvider(
-                    sqlAuthenticationMethod,
-                    sqlAuthenticationProvider);
-            var sqlConnection = new SqlConnection(connectionString);
-            options.UseSqlServer(sqlConnection);
-        });
-    }
-
     public static void ConfigureApiVersioning(this IServiceCollection services)
     {
         services.AddApiVersioning(options =>
@@ -96,6 +84,18 @@ public static class IServiceCollectionExtensions
         {
             options.OperationFilter<SwaggerDefaultValues>();
             options.SupportNonNullableReferenceTypes();
+        });
+    }
+
+    private static void AddDbContextFactory(IServiceCollection services, SqlAuthenticationMethod sqlAuthenticationMethod, SqlAuthenticationProvider sqlAuthenticationProvider, string connectionString)
+    {
+        services.AddDbContextFactory<UserDbContext>(options =>
+        {
+            SqlAuthenticationProvider.SetProvider(
+                    sqlAuthenticationMethod,
+                    sqlAuthenticationProvider);
+            var sqlConnection = new SqlConnection(connectionString);
+            options.UseSqlServer(sqlConnection);
         });
     }
 }
