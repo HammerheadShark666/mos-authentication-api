@@ -1,3 +1,9 @@
+# mos-authentication-api
+Microservice Order System - Authentication Microservice
+
+[See Wiki for details about the Authentication Api](https://github.com/HammerheadShark666/mos-authentication-api/wiki) 
+
+
 This project is an **Authentication API** built using **.NET 8** with **JWT Token Authentication**, backed by **SQL Server**, and hosted in an **Azure App Service**. The API is containerized using **Docker** and utilizes **CI/CD** pipelines for automated deployment.
 
 ## Features
